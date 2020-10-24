@@ -1,0 +1,52 @@
+device: 0
+save_dir : 'log'
+joint_training: 0
+
+data:
+  train_file: 'data/wsj10_tr'
+  val_file: 'data/wsj10_d'
+  test_file: 'data/wsj10_te'
+  external_parser: 'data/wsj-inf_2-21_dep_filter_10_init'
+  vocab_type: 'max_size'
+  vocab_size: 10000
+  min_freq: 2
+  use_emb: 0
+#  embedding: 'embedding/fast_text_wsj_100_1_300.model'
+#  emb_type: 'fasttext'
+#  word_emb_size: 100
+  wordposastoken: 0
+
+model:
+  model_name: 'NeuralDMV'
+  pos_emb_size: 100
+  hidden_size: 500
+  pre_child_size: 250
+  pre_decision_size: 100
+  dropout_rate: 0
+
+
+train:
+  initializer: 'km'
+  init:
+    batch_size: 256
+    max_epoch: 5
+    clip: -1
+  training:
+    batch_size: 64
+    max_epoch: 300
+    patience: 5
+    clip: -1
+
+test:
+    batch_size: 128
+    max_tokens: 3000
+    bucket: 32
+    decode: 'viterbi'
+
+optimizer:
+  name: 'adam'
+  lr: 0.001
+  mu: 0.9
+  nu: 0.999
+  weight_decay: 0
+

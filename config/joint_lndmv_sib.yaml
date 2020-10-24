@@ -1,0 +1,71 @@
+device: 1
+save_dir : 'log'
+joint_training: 1
+data:
+  train_file: 'data/wsj10_tr'
+  val_file: 'data/wsj10_d'
+  test_file: 'data/wsj10_te'
+  external_parser: 'data/wsj-inf_2-21_dep_filter_10_init'
+  vocab_type: 'max_size'
+  vocab_size: 10000
+  min_freq: 2
+  use_emb: 1
+  embedding: 'embedding/fast_text_wsj_100_1_300.model'
+  emb_type: 'fasttext'
+  word_emb_size: 100
+  wordposastoken: 1
+
+model:
+  model_name: 'JointFirstSecond'
+  #model1: first-order model
+  model1:
+    model_name: 'LexicalizedNDMV'
+    pos_emb_size: 100
+    word_emb_size: 100
+    attach_r: 150
+    decision_r: 50
+    root_r: 150
+    dropout_rate: 0.5
+  #model2: second-order model
+  model2:
+    model_name: 'SiblingNDMV'
+    pos_emb_size: 100
+    hidden_size: 100
+    attach_r: 30
+    decision_r: 10
+    root_r: 30
+    dropout_rate: 0
+
+train:
+  initializer: 'external'
+  # 'dmo': direct marginal log-likelihood optimization. 'em': em algorithm training.
+  trainer: 'dmo'
+  init:
+    model1:
+      batch_size: 50
+      max_epoch: 3
+      clip: -1
+    model2:
+      batch_size: 50
+      max_epoch: 3
+      clip: -1
+  training:
+    bucket: 10
+    batch_size: 64
+    max_epoch: 300
+    patience: 5
+    clip: -1
+test:
+    batch_size: 128
+    max_tokens: 3000
+    bucket: 32
+    decode: 'viterbi'
+
+
+optimizer:
+  name: 'adam'
+  lr: 0.001
+  mu: 0.9
+  nu: 0.999
+  weight_decay: 0
+
