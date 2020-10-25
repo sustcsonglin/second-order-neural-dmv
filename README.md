@@ -10,7 +10,7 @@ conda create -n dmv python=3.7
 
 conda activate dmv
 
-pip install requirement.py
+pip install -r requirements.txt
 
 ### set up directory
 
