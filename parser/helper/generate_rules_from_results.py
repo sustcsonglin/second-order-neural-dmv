@@ -211,7 +211,7 @@ def generate_decision_rule_2o_sib(heads):
             if right_most_child[head] != child:
                 decision[head][prev_child+1][RIGHT][HASCHILD][GO] += 1
             else:
-                decision[head][prev_child+1][RIGHT][NOCHILD][GO] += 10
+                decision[head][prev_child+1][RIGHT][NOCHILD][GO] += 1
         if left_inner_most_child[child] == -1:
             decision[child][0][LEFT][NOCHILD][STOP] += 1
         else:
